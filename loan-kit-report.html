@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Loan‑Out Kit Bag Report</h3>
+
+<label>Which kit did you use?</label><br>
+<select id="kit">
+  <option value="Kit 1">Kit 1</option>
+  <option value="Kit 2">Kit 2</option>
+</select><br><br>
+
+<label>Is there a bag ready for collection?</label><br>
+<select id="bag">
+  <option value="Yes">Yes</option>
+  <option value="No">No</option>
+</select><br><br>
+
+<label>Notes (optional)</label><br>
+<textarea id="notes"></textarea><br><br>
+
+<button onclick="getLocation()">Use my location</button><br><br>
+
+<form id="reportForm" method="POST" action="https://script.google.com/macros/s/AKfycbx1QXYv6aAaotkx9-3BPrrfUxXhTvVjV4e7hxxmKRnN2_oY_2o4LPn8gnjP-ojbag34/exec">
+  <input type="hidden" name="kit" id="kitField">
+  <input type="hidden" name="bag" id="bagField">
+  <input type="hidden" name="notes" id="notesField">
+  <input type="hidden" name="lat" id="latField">
+  <input type="hidden" name="lon" id="lonField">
+  <button type="submit">Submit Report</button>
+</form>
+
+<script>
+function getLocation() {
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    document.getElementById("latField").value = pos.coords.latitude;
+    document.getElementById("lonField").value = pos.coords.longitude;
+    alert("Location captured — you can now submit the form.");
+  });
+}
+
+document.getElementById("reportForm").addEventListener("submit", function() {
+  document.getElementById("kitField").value = document.getElementById("kit").value;
+  document.getElementById("bagField").value = document.getElementById("bag").value;
+  document.getElementById("notesField").value = document.getElementById("notes").value;
+});
+</script>
+
+</body>
+</html>
