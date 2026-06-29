@@ -64,10 +64,6 @@
     <label>Notes</label>
     <textarea name="notes"></textarea>
 
-    <label>Photo</label>
-    <input type="file" id="photoInput" accept="image/*">
-
-    <input type="hidden" name="photo" id="photoField">
     <input type="hidden" name="lat" id="latField">
     <input type="hidden" name="lon" id="lonField">
 
@@ -78,18 +74,7 @@
 </div>
 
 <script>
-// Convert image to Base64
-document.getElementById("photoInput").addEventListener("change", function() {
-    const file = this.files[0];
-    const reader = new FileReader();
-    reader.onloadend = function() {
-        const base64 = reader.result.split(",")[1];
-        document.getElementById("photoField").value = base64;
-    };
-    reader.readAsDataURL(file);
-});
-
-// Location button with pop-up explanation
+// Location button with explanation
 document.getElementById("locButton").addEventListener("click", function() {
     alert("Please wait while we capture your location. If your device shows a pop-up asking for permission, click Allow.");
 
@@ -112,20 +97,3 @@ document.getElementById("reportForm").addEventListener("submit", function(e) {
     fetch(form.action, {
         method: "POST",
         body: data
-    })
-    .then(res => res.text())
-    .then(result => {
-        document.querySelector(".container").innerHTML = `
-            <h2>Report Submitted ✔️</h2>
-            <p>Your email has been sent successfully.</p>
-            <p>Thank you — you can now return your equipment.</p>
-        `;
-    })
-    .catch(err => {
-        alert("Something went wrong submitting your report. Please try again.");
-    });
-});
-</script>
-
-</body>
-</html>
