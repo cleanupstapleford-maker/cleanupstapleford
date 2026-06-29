@@ -55,36 +55,40 @@
 
 <form id="reportForm" action="YOUR_WEB_APP_URL" method="POST">
 
-    <label>Street Name (where the bag was left)</label>
-    <input type="text" name="street" required>
-
     <label>Kit Number</label>
     <input type="text" name="kit" required>
 
     <label>Notes</label>
     <textarea name="notes"></textarea>
 
+    <label>Photo</label>
+    <input type="file" id="photoInput" accept="image/*">
+
+    <input type="hidden" name="photo" id="photoField">
     <input type="hidden" name="lat" id="latField">
     <input type="hidden" name="lon" id="lonField">
 
-    <button type="button" id="locButton">Use My Location</button>
     <button type="submit">Submit Report</button>
 </form>
 
 </div>
 
 <script>
-// Location button with explanation
-document.getElementById("locButton").addEventListener("click", function() {
-    alert("Please wait while we capture your location. If your device shows a pop-up asking for permission, click Allow.");
+// Convert image to Base64
+document.getElementById("photoInput").addEventListener("change", function() {
+    const file = this.files[0];
+    const reader = new FileReader();
+    reader.onloadend = function() {
+        const base64 = reader.result.split(",")[1];
+        document.getElementById("photoField").value = base64;
+    };
+    reader.readAsDataURL(file);
+});
 
-    navigator.geolocation.getCurrentPosition(function(pos) {
-        document.getElementById("latField").value = pos.coords.latitude;
-        document.getElementById("lonField").value = pos.coords.longitude;
-        alert("Location captured successfully ✔️");
-    }, function() {
-        alert("Unable to capture location. Please ensure permissions are allowed.");
-    });
+// Get GPS location
+navigator.geolocation.getCurrentPosition(function(pos) {
+    document.getElementById("latField").value = pos.coords.latitude;
+    document.getElementById("lonField").value = pos.coords.longitude;
 });
 
 // Handle form submission WITHOUT redirect
