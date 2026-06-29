@@ -2,188 +2,119 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Clean Up Stapleford – Bag Report</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Kit Report</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #e8f5e9;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-  }
-  .container {
-    background: white;
-    width: 90%;
-    max-width: 520px;
-    margin-top: 40px;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-    text-align: center;
-    border-top: 6px solid #2e7d32;
-  }
-  .logo {
-    width: 160px;
-    margin-bottom: 10px;
-  }
-  h2 {
-    margin-top: 0;
-    color: #2e7d32;
-    font-size: 26px;
-  }
-  .instruction-box {
-    background: #f1f8e9;
-    padding: 15px;
-    border-left: 5px solid #66bb6a;
-    text-align: left;
-    margin-bottom: 20px;
-    border-radius: 6px;
-    font-size: 15px;
-  }
-  label {
-    font-weight: bold;
-    display: block;
-    margin-top: 15px;
-    text-align: left;
-    color: #1b5e20;
-  }
-  select, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    background: #fafafa;
-  }
-  button {
-    width: 100%;
-    padding: 12px;
-    background: #43a047;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 17px;
-    margin-top: 20px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  button:hover {
-    background: #2e7d32;
-  }
-  .kit-count {
-    background: #c8e6c9;
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    font-weight: bold;
-    color: #1b5e20;
-    font-size: 16px;
-  }
+    body {
+        background: #f4f4f4;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #2a7c2a;
+    }
+    label {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+    }
+    input, textarea, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background: #2a7c2a;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+    button:hover {
+        background: #256b25;
+    }
 </style>
 </head>
 
 <body>
 <div class="container">
 
-  <img src="logo.png" class="logo" alt="Clean Up Stapleford Logo">
+<h2>Loan Kit Report</h2>
 
-  <h2>Report a Full Bag</h2>
+<form id="reportForm" action="YOUR_WEB_APP_URL" method="POST">
 
-  <div class="kit-count">10 Kits Available</div>
+    <label>Kit Number</label>
+    <input type="text" name="kit" required>
 
-  <div class="instruction-box">
-    <strong>Before you report:</strong>
-    <ul>
-      <li>Place the bag somewhere safe and not blocking paths or driveways.</li>
-      <li>Take a photo of the bag in its location (for your own record).</li>
-      <li>Stand next to the bag when reporting so your phone captures the correct GPS location.</li>
-    </ul>
-  </div>
+    <label>Notes</label>
+    <textarea name="notes"></textarea>
 
-  <label>Which kit did you use?</label>
-  <select id="kit">
-    <option value="Kit 1">Kit 1</option>
-    <option value="Kit 2">Kit 2</option>
-    <option value="Kit 3">Kit 3</option>
-    <option value="Kit 4">Kit 4</option>
-    <option value="Kit 5">Kit 5</option>
-    <option value="Kit 6">Kit 6</option>
-    <option value="Kit 7">Kit 7</option>
-    <option value="Kit 8">Kit 8</option>
-    <option value="Kit 9">Kit 9</option>
-    <option value="Kit 10">Kit 10</option>
-  </select>
+    <label>Photo</label>
+    <input type="file" id="photoInput" accept="image/*">
 
-  <label>Notes (optional)</label>
-  <textarea id="notes" placeholder="Anything we should know?"></textarea>
-
-  <button type="button" onclick="getLocation()">Use my location</button>
-
-  <form id="reportForm" method="POST"
-        action="https://script.google.com/macros/s/AKfycbx1QXYv6aAaotkx9-3BPrrfUxXhTvVjV4e7hxxmKRnN2_oY_2o4LPn8gnjP-ojbag34/exec">
-
-    <input type="hidden" name="kit" id="kitField">
-    <input type="hidden" name="notes" id="notesField">
+    <input type="hidden" name="photo" id="photoField">
     <input type="hidden" name="lat" id="latField">
     <input type="hidden" name="lon" id="lonField">
 
     <button type="submit">Submit Report</button>
-  </form>
+</form>
 
 </div>
 
 <script>
-function getLocation() {
-  if (!navigator.geolocation) {
-    alert("Geolocation is not supported on this device.");
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(function(pos) {
+// Convert image to Base64
+document.getElementById("photoInput").addEventListener("change", function() {
+    const file = this.files[0];
+    const reader = new FileReader();
+    reader.onloadend = function() {
+        const base64 = reader.result.split(",")[1];
+        document.getElementById("photoField").value = base64;
+    };
+    reader.readAsDataURL(file);
+});
+
+// Get GPS location
+navigator.geolocation.getCurrentPosition(function(pos) {
     document.getElementById("latField").value = pos.coords.latitude;
     document.getElementById("lonField").value = pos.coords.longitude;
-    alert("Location captured — you can now submit the form.");
-  }, function() {
-    alert("Unable to get location. You can still submit the report.");
-  });
-}
-
-document.getElementById("reportForm").addEventListener("submit", function() {
-  document.getElementById("kitField").value = document.getElementById("kit").value;
-  document.getElementById("notesField").value = document.getElementById("notes").value;
 });
-</script>
-<script>
+
+// Handle form submission WITHOUT redirect
 document.getElementById("reportForm").addEventListener("submit", function(e) {
-  e.preventDefault(); // stop default redirect
+    e.preventDefault();
 
-  const form = e.target;
-  const data = new FormData(form);
+    const form = e.target;
+    const data = new FormData(form);
 
-  fetch(form.action, {
-    method: "POST",
-    body: data
-  })
-  .then(response => response.text())
-  .then(result => {
-    document.querySelector(".container").innerHTML = `
-      <h2>Report Submitted ✔️</h2>
-      <p>Your email has been sent successfully.</p>
-      <p>Thank you — you can now return your equipment.</p>
-    `;
-  })
-  .catch(error => {
-    alert("Something went wrong submitting your report. Please try again.");
-  });
+    fetch(form.action, {
+        method: "POST",
+        body: data
+    })
+    .then(res => res.text())
+    .then(result => {
+        document.querySelector(".container").innerHTML = `
+            <h2>Report Submitted ✔️</h2>
+            <p>Your email has been sent successfully.</p>
+            <p>Thank you — you can now return your equipment.</p>
+        `;
+    })
+    .catch(err => {
+        alert("Something went wrong submitting your report. Please try again.");
+    });
 });
 </script>
 
-
-  
 </body>
 </html>
