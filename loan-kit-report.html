@@ -158,6 +158,32 @@ document.getElementById("reportForm").addEventListener("submit", function() {
   document.getElementById("notesField").value = document.getElementById("notes").value;
 });
 </script>
+<script>
+document.getElementById("reportForm").addEventListener("submit", function(e) {
+  e.preventDefault(); // stop default redirect
 
+  const form = e.target;
+  const data = new FormData(form);
+
+  fetch(form.action, {
+    method: "POST",
+    body: data
+  })
+  .then(response => response.text())
+  .then(result => {
+    document.querySelector(".container").innerHTML = `
+      <h2>Report Submitted ✔️</h2>
+      <p>Your email has been sent successfully.</p>
+      <p>Thank you — you can now return your equipment.</p>
+    `;
+  })
+  .catch(error => {
+    alert("Something went wrong submitting your report. Please try again.");
+  });
+});
+</script>
+
+
+  
 </body>
 </html>
